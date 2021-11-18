@@ -33,7 +33,15 @@
                                      update="@form"
                                      onstart="PF('dlgStatus').show();"
                                      oncomplete="PF('dlgStatus').hide();"/>
+
                 </h:panelGrid>
+
+                <p:linkButton outcome="resourceType">
+                    #{msg['app.resourceType']}
+                </p:linkButton>
+                <p:linkButton outcome="resource">
+                    #{msg['app.resource']}
+                </p:linkButton>
                 <p:messages/>
             </h:form>
         </p:card>

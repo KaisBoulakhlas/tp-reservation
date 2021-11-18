@@ -1,7 +1,9 @@
 package montp.web.controllers;
 
+import montp.data.model.resource.ResourceType;
 import montp.data.model.security.User;
 import montp.locale.Messages;
+import montp.services.ResourceTypeService;
 import montp.services.UserService;
 import montp.tools.EMailer;
 import montp.tools.Logger;
@@ -39,6 +41,7 @@ public class IndexView implements Serializable {
     }
 
     public List<User> getUsers() { return userService.getUsers(); }
+
 
     public boolean isUserActive(User user) { return userService.isActive(user); }
 

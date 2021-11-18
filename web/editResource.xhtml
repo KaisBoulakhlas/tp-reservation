@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./layout.xhtml">
+   <f:metadata>
+      <f:viewParam name="id" value="#{resourceEdit.instance}"/>
+   </f:metadata>
+   <ui:define name="content">
+      <p:card>
+         <f:facet name="title">#{resourceEdit.instance.id == null ? msg['resource.add'] : msg['resource.edit']}</f:facet>
+         <h:form id="frmEditResource">
+            <h:panelGrid columns="2" cellpadding="5">
+               <p:outputLabel for="name" value="#{msg['resource.name']}"/>
+               <p:inputText id="name" value="#{resourceEdit.instance.resourceName}"
+                            required="true" requiredMessage="#{msg['resource.name_required']}"
+               />
+
+                  <p:outputLabel for="@next" value="Personne"/>
+                  <p:selectOneMenu id="lazy" value="#{resourceEdit.instance.responsable.personName}" dynamic="true">
+                     <f:selectItems value="#{resourceEdit.persons}"/>
+                  </p:selectOneMenu>
+            </h:panelGrid>
+            <p:growl/>
+            <p:commandButton value="#{msg['app.save']}"
+                             actionListener="#{resourceEdit.save}"
+            />
+         </h:form>
+      </p:card>
+   </ui:define>
+</ui:composition>

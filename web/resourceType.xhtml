@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./layout.xhtml">
+    <ui:define name="content">
+        <h2>#{msg['example.resourcetypename']}</h2>
+        <p:card>
+            <f:facet name="title">#{msg['example.resourceslisttype']}</f:facet>
+
+            <h:form id="formDataTable">
+                <p:growl/>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:commandButton icon="fa fa-plus"
+                                     value="#{msg['resourceType.add']}"
+                                     actionListener="#{addDialogResourceType.create(resourceTypeView)}"
+                                     update="dlgAddResourceType"
+                                     oncomplete="PF('dlgAddResourceType').show()"
+                                     process="@this"/>
+                </h:panelGrid>
+                <p:dataTable id="dataTable" value="#{resourceTypeView.resourceTypes}"
+                             var="resource_type">
+                    <p:column headerText="#{msg['example.resourcename']}">
+                        #{resource_type.name}
+                    </p:column>
+                    <p:column headerText="#{msg['example.capacity']}">
+                        #{resource_type.capacity > 0 ? resource_type.capacity: "Pas de capacité"}
+                    </p:column>
+                    <p:column headerText="#{msg['example.resourcecount']}">
+                        #{resource_type.resources.size()}
+                    </p:column>
+                    <p:column headerText="#{msg['example.action']}">
+                        <p:commandButton id="deleteButton"
+                                         value="Delete"
+                                         rendered="#{resourceTypeView.canDelete(resource_type)}"
+                                         process="@this"
+                                         update="@form"
+                                         actionListener="#{resourceTypeView.deleteResourceType(resource_type)}">
+                            <p:confirm header="#{msg['app.delete']}"
+                                       message="#{msg['example.delete']}"
+                                       icon="fa fa-question-circle"/>
+                        </p:commandButton>
+                        <p:commandButton icon="fa fa-edit"
+                                         styleClass="dataTableActions"
+                                         title="#{msg['app.edit']}"
+                                         actionListener="#{addDialogResourceType.setInstance(resource_type)}"
+                                         update="dlgAddResourceType"
+                                         oncomplete="PF('dlgAddResourceType').show()"
+                                         process="@this"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <h:outputFormat value="#{msg['example.resourcetypescount']}"><f:param value="#{resourceTypeView.resourceTypes.size()}"/></h:outputFormat>
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+        </p:card>
+        <ui:include src="dialog/dlg_add_resource_type.xhtml"/>
+    </ui:define>
+</ui:composition>
+

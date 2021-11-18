@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="./layout.xhtml">
+    <ui:define name="content">
+        <h2>#{msg['example.resourcename']}</h2>
+        <p:linkButton outcome="index">
+            #{msg['app.index']}
+        </p:linkButton>
+        <p:card>
+            <f:facet name="title">#{msg['example.resourceslist']}</f:facet>
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:linkButton outcome="editResource">
+                    #{msg['app.addresource']}
+                </p:linkButton>
+            </h:panelGrid>
+            <h:form id="formDataTable">
+                <p:dataTable id="dataTable" value="#{resourceView.resources}"
+                             var="res">
+                    <p:column headerText="#{msg['example.resourcename']}">
+                        #{res.resourceName}
+                    </p:column>
+                    <p:column headerText="#{msg['example.partage']}">
+                        <p:selectBooleanCheckbox value="#{res.partage}">
+                            <p:ajax process="@this" update="@form" listener="#{resourceView.update(res)}"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                    <p:column headerText="#{msg['example.responsable']}">
+                        #{res.responsable.personName} #{res.responsable.personFirstname}
+                    </p:column>
+                    <p:column headerText="#{msg['example.action']}">
+                        <p:linkButton outcome="editResource" icon="fa fa-edit">
+                            <f:param name="id" value="#{res.id}"/>
+                        </p:linkButton>
+                    </p:column>
+                    <f:facet name="footer">
+                        <h:outputFormat value="#{msg['example.resourcecount']}"><f:param value="#{resourceView.resources.size()}"/></h:outputFormat>
+                    </f:facet>
+                </p:dataTable>
+            </h:form>
+        </p:card>
+    </ui:define>
+</ui:composition>
+

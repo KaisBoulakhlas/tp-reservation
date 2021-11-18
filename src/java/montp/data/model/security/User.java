@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "SECURITY_USER")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends GenericEntity {
 
     @Column(nullable = false, unique = true, length = 50)
